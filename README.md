@@ -1,6 +1,17 @@
-# loyalty-club
-Club de Fidelización de +Q1Look
+# +Q1Look Loyalty Club - Club de Fidelización de +Q1Look
 
+[+Q1Look](https://www.instagram.com/masq1look/) es un Centro de Estética y Peluquería con sede en Pozuelo de Alarcón, Madrid, España, que quiere recompensar a sus clientes más fieles con un programa de descuentos y promociones.
+
+El programa de fidelización, en una primera iteración, consistirá en la asignación de puntos a los clientes por cada consumo que realicen en +Q1Look. Los clientes podrán utilizar estos puntos posteriormente para obtener un descuento en nuevos consumos.
+
+Para ello se desarrolla ésta aplicación en la que registran los puntos que se asignan a los clientes y también los consumos de estos puntos.
+
+Para más información de los requisitos del proyecto: https://github.com/orgs/masq1look/projects/1 y https://github.com/masq1look/loyalty-club/issues
+
+## Diagramas PlantUML
+
+Para poder ver los diagramas de PlantUML en los documentos MarkDown, puedes instalar la extensión de Chrome:
+[PlantUML Visualizer](https://chrome.google.com/webstore/detail/plantuml-visualizer/ffaloebcmkogfdkemcekamlmfkkmgkcf/related?hl=es)
 
 # Next.js README
 
