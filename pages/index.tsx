@@ -9,6 +9,7 @@ type SaludoResponse = {
 };
 
 const Home: NextPage = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [idClienteValue, setIdCliente] = useState<string>('');
   const [saludo, setSaludo] = useState<string>('');
 
@@ -25,6 +26,7 @@ const Home: NextPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
+    setLoading(true);
 
     // Get data from the form.
     const data = { idCliente: idClienteValue };
@@ -51,6 +53,7 @@ const Home: NextPage = () => {
     const responseContent: SaludoResponse = await res.json();
     console.log(responseContent);
     setSaludo(responseContent.name);
+    setLoading(false);
   };
 
   return (
@@ -63,21 +66,25 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Alta de clientes</h1>
-        {!saludo && (
-          <div className={styles.grid}>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="idCliente">
-                Introduzca Identificador de Cliente:
-              </label>
-              <input
-                id="idCliente"
-                type="text"
-                value={idClienteValue}
-                onChange={onChangeIdCliente}
-              />
-              <input type="submit" value="Guardar Cliente" />
-            </form>
-          </div>
+        {loading ? (
+          <p>Guardando...</p>
+        ) : (
+          !saludo && (
+            <div className={styles.grid}>
+              <form onSubmit={handleSubmit}>
+                <label htmlFor="idCliente">
+                  Introduzca Identificador de Cliente:
+                </label>
+                <input
+                  id="idCliente"
+                  type="text"
+                  value={idClienteValue}
+                  onChange={onChangeIdCliente}
+                />
+                <input type="submit" value="Guardar Cliente" />
+              </form>
+            </div>
+          )
         )}
         {saludo && <div className={styles.card}>{saludo}</div>}
       </main>
