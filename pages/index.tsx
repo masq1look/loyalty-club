@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import styles from '../styles/Home.module.css';
 
@@ -88,6 +89,9 @@ const Home: NextPage = () => {
           )
         )}
         {saludo && <div className={styles.card}>{saludo}</div>}
+        <Link href="/clientList">
+          <a>Ver Lista de Clientes</a>
+        </Link>
       </main>
 
       <footer className={styles.footer}>
