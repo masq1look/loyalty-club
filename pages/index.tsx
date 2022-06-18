@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
-import React, { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import React, { useState } from 'react';
 import styles from '../styles/Home.module.css';
 
 type SaludoResponse = {
@@ -10,16 +10,16 @@ type SaludoResponse = {
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [idClienteValue, setIdCliente] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [saludo, setSaludo] = useState<string>('');
 
-  const onChangeIdCliente = (
+  const onChangeName = (
     e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
     newValue?: string | undefined
   ): void => {
     console.log(`e.currentTarget.value: ${e.currentTarget.value}`);
     console.log(`newValue: ${newValue}`);
-    setIdCliente(e.currentTarget.value);
+    setName(e.currentTarget.value);
   };
 
   // Handles the submit event on form submit.
@@ -29,13 +29,13 @@ const Home: NextPage = () => {
     setLoading(true);
 
     // Get data from the form.
-    const data = { idCliente: idClienteValue };
+    const data = { name };
 
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(data);
 
     // API endpoint where we send form data.
-    const endpoint = '/api/hello';
+    const endpoint = '/api/clientes';
 
     // Form the request for sending data to the server.
     const options = {
@@ -51,9 +51,12 @@ const Home: NextPage = () => {
 
     const res = await fetch(endpoint, options);
     const responseContent: SaludoResponse = await res.json();
-    console.log(responseContent);
-    setSaludo(responseContent.name);
     setLoading(false);
+    console.log(responseContent);
+    if (res.status != 200) {
+      setSaludo('Error');
+    }
+    setSaludo(responseContent.name);
   };
 
   return (
@@ -72,14 +75,12 @@ const Home: NextPage = () => {
           !saludo && (
             <div className={styles.grid}>
               <form onSubmit={handleSubmit}>
-                <label htmlFor="idCliente">
-                  Introduzca Identificador de Cliente:
-                </label>
+                <label htmlFor="name">Introduzca Nombre de Cliente:</label>
                 <input
-                  id="idCliente"
+                  id="name"
                   type="text"
-                  value={idClienteValue}
-                  onChange={onChangeIdCliente}
+                  value={name}
+                  onChange={onChangeName}
                 />
                 <input type="submit" value="Guardar Cliente" />
               </form>
