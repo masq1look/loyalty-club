@@ -1,9 +1,9 @@
+import { Button, Grid, TextField } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
 import React, { useState } from 'react';
-import styles from '../styles/Home.module.css';
+import MainLayout from '../components/layouts/MainLayout';
+import Link from '../components/Link';
 
 type SaludoResponse = {
   name: string;
@@ -61,56 +61,41 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>+Q1Look Loyalty Club</title>
-        <meta name="description" content="+Q1Look Club de Fidelización" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>Alta de clientes</h1>
+    <MainLayout>
+      <>
+        <Typography variant="h2" component="h1" gutterBottom>
+          Alta de clientes
+        </Typography>
         {loading ? (
-          <p>Guardando...</p>
+          <Typography variant="body1">Guardando...</Typography>
         ) : (
           !saludo && (
-            <div className={styles.grid}>
-              <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Introduzca Nombre de Cliente:</label>
-                <input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={onChangeName}
-                />
-                <input type="submit" value="Guardar Cliente" />
-              </form>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={8}>
+                  <TextField
+                    id="name"
+                    fullWidth
+                    label="Nombre"
+                    onChange={onChangeName}
+                    placeholder="Introduzca Nombre de Cliente"
+                    required
+                    value={name}
+                  />
+                </Grid>
+                <Grid item xs>
+                  <Button variant="contained" type="submit">
+                    Guardar Cliente
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
           )
         )}
-        {saludo && <div className={styles.card}>{saludo}</div>}
-        <Link href="/clientList">
-          <a>Ver Lista de Clientes</a>
-        </Link>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://www.instagram.com/masq1look/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span className={styles.logo}>
-            <Image
-              src="/masq1look_logo.svg"
-              alt="Logo +Q1Look"
-              width={72}
-              height={72}
-            />
-          </span>
-        </a>
-      </footer>
-    </div>
+        {saludo && <Typography variant="body1">{saludo}</Typography>}
+        <Link href="/clientList">Ver Lista de Clientes</Link>
+      </>
+    </MainLayout>
   );
 };
 
