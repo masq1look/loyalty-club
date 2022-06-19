@@ -1,18 +1,10 @@
+import { PostgrestError, PostgrestResponse } from '@supabase/supabase-js';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-
-import {
-  createClient,
-  PostgrestError,
-  PostgrestResponse
-} from '@supabase/supabase-js';
-
-const supabaseUrl = 'https://efvphsnbidfvelpevybt.supabase.co';
-const supabaseKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from '../utils/supabaseClient';
 
 type Cliente = {
   id: string;

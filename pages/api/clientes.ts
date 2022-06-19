@@ -1,10 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createClient, PostgrestError } from '@supabase/supabase-js';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { PostgrestError } from '@supabase/supabase-js';
+import { supabase } from '../../utils/supabaseClient';
 
-const supabaseUrl = 'https://efvphsnbidfvelpevybt.supabase.co';
-const supabaseKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseKey);
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Data = {
   name: string;
@@ -15,7 +13,7 @@ type Error = {
   error: PostgrestError | { message: string };
 };
 
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data | Error>
 ) {
@@ -31,3 +29,5 @@ export default async function handler(
   }
   res.status(200).json({ name: `Hello ${req.body.name}`, data });
 }
+
+export default handler;
