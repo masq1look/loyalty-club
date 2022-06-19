@@ -3,12 +3,22 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run update-types",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "update-types": "source .env.local && npx openapi-typescript \"${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/?apikey=${NEXT_PUBLIC_SUPABASE_ANON_KEY}\" --version=2 --prettier-config node_modules/prettier/standalone.js --output types/database/index.ts"
   },
   "dependencies": {
+    "@emotion/cache": "^11.9.3",
+    "@emotion/react": "^11.9.3",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.9.3",
+    "@fontsource/roboto": "^4.5.7",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.4",
+    "@mui/x-data-grid": "^5.12.2",
     "@supabase/supabase-js": "^1.31.1",
     "next": "^12.1.0",
     "react": "17.0.2",
