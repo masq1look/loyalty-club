@@ -13,12 +13,36 @@ export const getServerSideProps: GetServerSideProps = async context => {
     .from<Clientes>('clientes')
     .select('id,created_at,name');
 
-  console.log('res: ', res);
+  const { data, error }: PostgrestResponse<Clientes> = res;
 
-  const { data: clientes, error }: PostgrestResponse<Clientes> = res;
-  clientes?.forEach(cliente => {
-    console.log('cliente.created¿at: ', cliente.created_at);
+  const acceptLanguage = context.req.headers['accept-language']
+    ?.split(',')
+    ?.map(language => language.split(';')[0]);
+
+  const locale =
+    (acceptLanguage && acceptLanguage.length >= 1 && acceptLanguage[1]) ||
+    (acceptLanguage && acceptLanguage.length === 1 && acceptLanguage[0]) ||
+    context.locale ||
+    context.defaultLocale ||
+    'es-ES';
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short'
+  };
+
+  const clientes = data?.map(cliente => {
+    return {
+      ...cliente,
+      created_at: new Date(cliente.created_at).toLocaleString(locale, options)
+    };
   });
+
   return {
     props: { clientes, error }
   };
@@ -33,7 +57,11 @@ const ClientList: NextPage<Props> = ({ clientes, error }) => {
         <Typography variant="h2" component="h1" gutterBottom>
           Lista de clientes
         </Typography>
-        {error && <pre>Error: {JSON.stringify(error)}</pre>}
+        {error && (
+          <Typography variant="body2" component="pre">
+            Error: {JSON.stringify(error)}
+          </Typography>
+        )}
         {clientes && (
           <table>
             <thead>
