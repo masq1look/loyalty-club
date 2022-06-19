@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import type { NextPage } from 'next';
 import React, { useState } from 'react';
 import MainLayout from '../components/layouts/MainLayout';
-import Link from '../components/Link';
 
 type SaludoResponse = {
   name: string;
@@ -58,18 +57,15 @@ const Home: NextPage = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout actualPage="Alta">
       <>
-        <Typography variant="h2" component="h1" gutterBottom>
-          Alta de clientes
-        </Typography>
         {loading ? (
           <Typography variant="body1">Guardando...</Typography>
         ) : (
           !saludo && (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-                <Grid item xs={8}>
+                <Grid item xs={12} md={8}>
                   <TextField
                     id="name"
                     fullWidth
@@ -80,7 +76,7 @@ const Home: NextPage = () => {
                     value={name}
                   />
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={12} md={4}>
                   <Button variant="contained" type="submit">
                     Guardar Cliente
                   </Button>
@@ -90,7 +86,6 @@ const Home: NextPage = () => {
           )
         )}
         {saludo && <Typography variant="body1">{saludo}</Typography>}
-        <Link href="/clientList">Ver Lista de Clientes</Link>
       </>
     </MainLayout>
   );

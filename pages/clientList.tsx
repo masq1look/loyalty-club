@@ -4,7 +4,6 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { PostgrestError, PostgrestResponse } from '@supabase/supabase-js';
 import type { GetServerSideProps, NextPage } from 'next';
 import MainLayout from '../components/layouts/MainLayout';
-import Link from '../components/Link';
 import { definitions } from '../types/database';
 import { supabase } from '../utils/supabaseClient';
 
@@ -68,11 +67,8 @@ type Props = { clientes: Clientes[]; error: PostgrestError };
 
 const ClientList: NextPage<Props> = ({ clientes, error }) => {
   return (
-    <MainLayout>
+    <MainLayout actualPage="Lista">
       <>
-        <Typography variant="h2" component="h1" gutterBottom>
-          Lista de clientes
-        </Typography>
         {error && (
           <Typography variant="body2" component="pre">
             Error: {JSON.stringify(error)}
@@ -90,7 +86,6 @@ const ClientList: NextPage<Props> = ({ clientes, error }) => {
             />
           </Box>
         )}
-        <Link href="/">Alta de Clientes</Link>
       </>
     </MainLayout>
   );
