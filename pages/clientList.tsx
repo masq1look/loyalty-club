@@ -1,4 +1,6 @@
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { PostgrestError, PostgrestResponse } from '@supabase/supabase-js';
 import type { GetServerSideProps, NextPage } from 'next';
 import MainLayout from '../components/layouts/MainLayout';
@@ -48,6 +50,20 @@ export const getServerSideProps: GetServerSideProps = async context => {
   };
 };
 
+const columns: GridColDef[] = [
+  {
+    field: 'name',
+    headerName: 'Nombre',
+    width: 150
+  },
+  {
+    field: 'created_at',
+    headerName: 'Fecha de Alta',
+    width: 200,
+    type: 'dateTime'
+  }
+];
+
 type Props = { clientes: Clientes[]; error: PostgrestError };
 
 const ClientList: NextPage<Props> = ({ clientes, error }) => {
@@ -63,22 +79,16 @@ const ClientList: NextPage<Props> = ({ clientes, error }) => {
           </Typography>
         )}
         {clientes && (
-          <table>
-            <thead>
-              <tr>
-                <th>Fecha de Alta</th>
-                <th>Nombre</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clientes.map(cliente => (
-                <tr key={cliente.id}>
-                  <td>{cliente.created_at}</td>
-                  <td>{cliente.name}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Box sx={{ height: '60vh', width: '100%' }}>
+            <DataGrid
+              autoHeight={true}
+              rows={clientes}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              disableSelectionOnClick
+            />
+          </Box>
         )}
         <Link href="/">Alta de Clientes</Link>
       </>
