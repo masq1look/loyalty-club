@@ -15,11 +15,8 @@ const Home: NextPage = () => {
   const [saludo, setSaludo] = useState<string>('');
 
   const onChangeName = (
-    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-    newValue?: string | undefined
+    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
-    console.log(`e.currentTarget.value: ${e.currentTarget.value}`);
-    console.log(`newValue: ${newValue}`);
     setName(e.currentTarget.value);
   };
 
