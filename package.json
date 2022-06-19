@@ -3,10 +3,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run update-types",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "update-types": "source .env.local && npx openapi-typescript \"${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/?apikey=${NEXT_PUBLIC_SUPABASE_ANON_KEY}\" --version=2 --prettier-config node_modules/prettier/standalone.js --output types/database/index.ts"
   },
   "dependencies": {
     "@emotion/cache": "^11.9.3",

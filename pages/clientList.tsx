@@ -3,30 +3,30 @@ import { PostgrestError, PostgrestResponse } from '@supabase/supabase-js';
 import type { GetServerSideProps, NextPage } from 'next';
 import MainLayout from '../components/layouts/MainLayout';
 import Link from '../components/Link';
+import { definitions } from '../types/database';
 import { supabase } from '../utils/supabaseClient';
 
-type Cliente = {
-  id: string;
-  created_at: string;
-  name: string;
-};
+type Clientes = definitions['clientes'];
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const res = await supabase.from('clientes').select('id,created_at,name');
+  const res = await supabase
+    .from<Clientes>('clientes')
+    .select('id,created_at,name');
 
   console.log('res: ', res);
-  const { data: clientes, error }: PostgrestResponse<Cliente> = res;
 
+  const { data: clientes, error }: PostgrestResponse<Clientes> = res;
+  clientes?.forEach(cliente => {
+    console.log('cliente.created¿at: ', cliente.created_at);
+  });
   return {
     props: { clientes, error }
   };
 };
 
-type Props = { clientes: Cliente[]; error: PostgrestError };
+type Props = { clientes: Clientes[]; error: PostgrestError };
 
 const ClientList: NextPage<Props> = ({ clientes, error }) => {
-  console.log('clientes: ', clientes);
-  console.log('error: ', error);
   return (
     <MainLayout>
       <>
